@@ -1,0 +1,10 @@
+BasedOnStyle: llvm
+IndentWidth: 4
+ColumnLimit: 120
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BreakBeforeBraces: Stroustrup
+
