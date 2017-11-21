@@ -4,6 +4,8 @@
 
 #include <SDL2/SDL.h>
 
+#include <GL/glew.h>
+
 namespace nest {
 inline namespace v1 {
 
@@ -167,6 +169,12 @@ class OpenGL::Builder final {
             instance.context = SDL_GL_CreateContext(instance.window);
             if (!instance.context) {
                 // TODO: Output error notification.
+            }
+            else {
+                auto const error_code = glewInit();
+                if (GLEW_OK != error_code) {
+                    // TODO: Output error notification.
+                }
             }
         }
 

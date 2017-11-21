@@ -1,13 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 
-#include <GL/glew.h>
-
 #include <nest/opengl.hpp>
 
 /*
 Build:
-    g++ -std=c++17 -Wall -Werror -I. test/openg.cpp -lmingw32 -lSDL2main -lSDL2 -lglew32 -lopengl32
+    g++ -std=c++17 -Wall -Werror -I. test/opengl.cpp -lmingw32 -lSDL2main -lSDL2 -lglew32 -lopengl32
 
 Expected result:
     A 320 x 240 window filled with red color.
@@ -35,8 +33,6 @@ extern "C" int SDL_main(int argc, char* argv[])
         std::cerr << "Failed to initialize OpenGL 4.1 context: " << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
     }
-
-    glewInit();
 
     for (auto running = true; running;) {
 
