@@ -19,20 +19,20 @@ struct FakeContext final {
         }
     }
 
-    FakeContext(FakeContext &&that) : valid(that.valid)
+    FakeContext(FakeContext&& that) : valid(that.valid)
     {
         that.valid = false;
     }
 };
 
-void make_current(FakeContext &ctx)
+void make_current(FakeContext& ctx)
 {
     if (ctx.valid) {
         std::cout << "make_current(FakeContext &)\n";
     }
 }
 
-int main(int const argc, char const *const argv[])
+int main(int const argc, char const* const argv[])
 {
     FakeContext ctx;
     nest::AsyncRenderer renderer(std::move(ctx));
@@ -43,4 +43,3 @@ int main(int const argc, char const *const argv[])
     std::this_thread::sleep_for(std::chrono::seconds(1));
     return EXIT_SUCCESS;
 }
-

@@ -1,5 +1,9 @@
 BasedOnStyle: llvm
 IndentWidth: 4
+TabWidth: 4
+MaxEmptyLinesToKeep: 2
+PointerBindsToType: true
+AlwaysBreakTemplateDeclarations: true
 ColumnLimit: 120
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false

@@ -32,7 +32,7 @@ class AsyncRenderer final {
             // Current strategy is not to break execution when an exception gets thrown by a command.
             // TODO: figure out if this strategy is wrong or if it's desirable to support other strategies as well.
 
-            std::for_each(begin(commands), end(commands), [](auto &fn) {
+            std::for_each(begin(commands), end(commands), [](auto& fn) {
                 try {
                     fn();
                 }
@@ -48,7 +48,8 @@ class AsyncRenderer final {
     };
 
     /// Constructs a renderer instance with the given context.
-    template <typename Context> AsyncRenderer(Context &&ctx)
+    template <typename Context>
+    AsyncRenderer(Context&& ctx)
     {
         thread = std::thread([ this, ctx = std::move(ctx) ]() mutable {
             make_current(ctx);
@@ -68,7 +69,7 @@ class AsyncRenderer final {
     }
 
     /// Submits the given command queue for execution.
-    void submit(CommandQueue &&queue)
+    void submit(CommandQueue&& queue)
     {
         std::unique_lock lock(queues_mutex);
         queues.emplace_back(std::move(queue));
@@ -95,7 +96,7 @@ class AsyncRenderer final {
                 std::swap(queues, this->queues);
             }
 
-            std::for_each(begin(queues), end(queues), [](auto &q) { q.execute(); });
+            std::for_each(begin(queues), end(queues), [](auto& q) { q.execute(); });
 
             auto const now = std::chrono::high_resolution_clock::now();
 
@@ -133,7 +134,8 @@ class AsyncRenderer final {
 class AsyncRenderer::CommandQueue::Builder final {
   public:
     /// Appends a new command into the queue. The command is constructed with the given arguments.
-    template <typename... T> Builder &enqueue(T &&... args)
+    template <typename... T>
+    Builder& enqueue(T&&... args)
     {
         queue.commands.emplace_back(std::forward<T>(args)...);
         return *this;
@@ -152,4 +154,3 @@ class AsyncRenderer::CommandQueue::Builder final {
 
 } // inline namespace v1
 } // namespace nest
-
