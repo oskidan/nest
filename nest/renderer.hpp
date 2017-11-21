@@ -52,7 +52,7 @@ class AsyncRenderer final {
     AsyncRenderer(Context&& ctx)
     {
         thread = std::thread([ this, ctx = std::move(ctx) ]() mutable {
-            make_current(ctx);
+            ctx.make_current();
             loop();
         });
     }

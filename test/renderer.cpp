@@ -23,14 +23,27 @@ struct FakeContext final {
     {
         that.valid = false;
     }
+
+    void make_current()
+    {
+        if (valid) {
+            std::cout << "make_current(FakeContext &)\n";
+        }
+    }
 };
 
-void make_current(FakeContext& ctx)
-{
-    if (ctx.valid) {
-        std::cout << "make_current(FakeContext &)\n";
-    }
-}
+/*
+Build:
+    g++ -std=c++17 -Wall -Werror -I. test/renderer.cpp
+
+Expected output:
+
+    FakeContext::FakeContext()
+    make_current(FakeContext &)
+    Hello, World!
+    Good bye, World!
+    FakeContext::~FakeContext()
+*/
 
 int main(int const argc, char const* const argv[])
 {
