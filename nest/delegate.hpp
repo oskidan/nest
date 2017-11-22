@@ -38,7 +38,7 @@ class Delegate<R(T...)> {
 
         // This function will be called by `Delegate::operator()`. It's responsible for calling the free-standing
         // function, which is available through `Delegate::function` pointer.
-        dispatch = [](Delegate* self, T&&... args) -> R {
+        dispatch = [](Delegate* self, T... args) -> R {
 
             auto function = reinterpret_cast<R (*)(T...)>(self->function);
             if (!function) {
@@ -60,7 +60,7 @@ class Delegate<R(T...)> {
         // This function will be caleed by `Delegate::operator()`. It's responsible for calling the member function,
         // which is available through `Delegate::function` pointer on the object which is available through
         // `Delegate::object` pointer.
-        dispatch = [](Delegate* self, T&&... args) -> R {
+        dispatch = [](Delegate* self, T... args) -> R {
 
             auto fn = detail::unsafe_cast<R (U::*)(T...)>(self->function);
             if (!fn) {
@@ -89,7 +89,7 @@ class Delegate<R(T...)> {
 
         // This function will be called by `Delegate::opreator()`. It's responsible for calling the `operator()` of
         // `callable` object which is available through `Delegate::object` pointer.
-        dispatch = [](Delegate* self, T&&... args) -> R {
+        dispatch = [](Delegate* self, T... args) -> R {
 
             auto callable = static_cast<U*>(self->object);
             if (!callable) {
@@ -117,13 +117,14 @@ class Delegate<R(T...)> {
     }
 
     /// Invokes the callee with the given arguments.
-    R operator()(T&&... args)
+    template <typename... U>
+    R operator()(U&&... args)
     {
         if (!dispatch) {
             // TODO: report an error.
         }
 
-        return dispatch(this, std::forward<T>(args)...);
+        return dispatch(this, std::forward<U>(args)...);
     }
 
     /// Unbinds this `Delegate` from the callee.
@@ -160,7 +161,7 @@ class Delegate<R(T...)> {
 
     /// Holds a pointer to a function that knows how to dispatch call to the callee. Holds `nullptr` if nothing has been
     /// bound to this delegate.
-    R (*dispatch)(Delegate* self, T&&...) = nullptr;
+    R (*dispatch)(Delegate* self, T...) = nullptr;
 
     /// Holds a pointer to a function that knows how to destroy callable object. The callable object must be stored in
     /// `object` member variable of `Delegate` class.

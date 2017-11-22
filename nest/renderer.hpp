@@ -87,7 +87,7 @@ class AsyncRenderer final {
         // Holds a zero-length duration.
         auto const zero_duration = high_resolution_clock::duration::zero();
 
-        auto then = std::chrono::high_resolution_clock::now();
+        auto then = high_resolution_clock::now();
 
         while (running.load()) {
             decltype(queues) queues;
@@ -98,7 +98,7 @@ class AsyncRenderer final {
 
             std::for_each(begin(queues), end(queues), [](auto& q) { q.execute(); });
 
-            auto const now = std::chrono::high_resolution_clock::now();
+            auto const now = high_resolution_clock::now();
 
             // Specifies how much time passed since last tick.
             auto const frame_duration = now - then;
@@ -107,6 +107,8 @@ class AsyncRenderer final {
                 std::unique_lock lock(awake_mutex);
                 awake.wait_for(lock, mod);
             }
+
+            then = now;
         }
     }
 
