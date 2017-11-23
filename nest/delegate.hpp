@@ -51,7 +51,35 @@ class Delegate<R(T...)> {
         this->function = reinterpret_cast<void*>(function);
     }
 
-    /// Binds this `Delegate` to the given `object` and its member `function`.
+    /// Binds this `Delegate` to the given C-style `function` which takes `user_data` as its first argument. The
+    /// lifetime of `user_data` shall be greater than or equal to the lifetime of this `Delegate`. The `user_data`
+    /// pointer can be set to `nullptr`, it's `function`'s responsibility to check whether the given `user_data` is
+    /// null.
+    void bind(R (*function)(void*, T...), void* user_data)
+    {
+        unbind();
+
+        // This function will be called by `Delegate::operator()`. It's responsible for call the free-standing function
+        // which is available through `Delegate::function` pointer. That function will be given `Delegate::object`
+        // pointer in the first argument.
+        dispatch = [](Delegate* self, T... args) -> R {
+
+            auto function = reinterpret_cast<R (*)(void*, T...)>(self->function);
+            if (!function) {
+                // TODO: report an error.
+            }
+
+            return function(self->object, std::forward<T>(args)...);
+        };
+
+        // clang-format off
+        this->function = reinterpret_cast<void*>(function);
+        this->object   = user_data;
+        // clang-format on
+    }
+
+    /// Binds this `Delegate` to the given `object` and its member `function`. The lifetime of `object` shall be greater
+    /// than or equal to the lifetime of this `Delegate`.
     template <typename U>
     void bind(U& object, R (U::*function)(T...))
     {
@@ -99,7 +127,8 @@ class Delegate<R(T...)> {
             return (*callable)(std::forward<T>(args)...);
         };
 
-        //
+        // This function will be called by `Delegate::unbind()`. It's responsible for gracefull destruction and
+        // deallocation of `callable` object.
         destroy = [](Delegate* self) {
 
             auto callable = static_cast<U*>(self->object);
@@ -149,14 +178,14 @@ class Delegate<R(T...)> {
     }
 
   private:
-    // TODO(oleksii): merge `destroy` and `funciton` into a single tagged pointer.
+    // TODO(oleksii): merge `destroy` and `function` into a single tagged pointer.
 
     /// If this delegate is bound to a member function, holds a pointer to the object which member function this
     /// delegate is bound to, otherwise holds `nullptr`.
     void* object = nullptr;
 
     /// If this delegate is bound to a member function, holds a pointer to the member function. If this delegate is
-    /// bound to a free-standing function, holds a pointer to that funciton, otherwise holds `nullptr`.
+    /// bound to a free-standing function, holds a pointer to that function, otherwise holds `nullptr`.
     void* function = nullptr;
 
     /// Holds a pointer to a function that knows how to dispatch call to the callee. Holds `nullptr` if nothing has been

@@ -62,16 +62,26 @@ int main(int const argc, char const* const argv[])
     std::cout << "Delegate says: " << delegate("Glad to ") << std::endl;
 
     CaptureMe c;
+    delegate.bind([c](char const* what) -> char const* {
+        std::cout << what;
+        return c.x;
+    });
+    std::cout << "Delegate says: " << delegate("Don't you know ") << std::endl;
+
     delegate.bind([c = std::move(c)](char const* what)->char const* {
         std::cout << what;
         return c.x;
     });
     std::cout << "Delegate says: " << delegate("What is ") << std::endl;
 
-    delegate.bind([c](char const* what) -> char const* {
-        std::cout << what;
-        return c.x;
-    });
-    std::cout << "Delegate says: " << delegate("Don't you know ") << std::endl;
+    CaptureMe d;
+    delegate.bind(
+        [](void* user_data, char const* what) -> char const* {
+            std::cout << what;
+            return static_cast<CaptureMe*>(user_data)->x;
+        },
+        &d);
+    std::cout << "Delegate says: " << delegate("What is ") << std::endl;
+
     return 0;
 }
