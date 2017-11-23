@@ -39,6 +39,27 @@ template <typename T>
 constexpr bool has_texcoord<T, std::void_t<decltype(std::declval<T>().texcoord)>> = true;
 /// @}
 
+/// Holds a numeric value which represents the number of components per vertex attribute.
+/// @{
+// clang-format off
+template<typename T> static constexpr std::size_t component_count = 1u;
+
+template<typename T, std::size_t N> constexpr std::size_t component_count<T[N]>       = N;
+template<>                          constexpr std::size_t component_count<glm::vec2>  = 2u;
+template<>                          constexpr std::size_t component_count<glm::vec3>  = 3u;
+template<>                          constexpr std::size_t component_count<glm::vec4>  = 4u;
+template<>                          constexpr std::size_t component_count<glm::dvec2> = 2u;
+template<>                          constexpr std::size_t component_count<glm::dvec3> = 3u;
+template<>                          constexpr std::size_t component_count<glm::dvec4> = 4u;
+template<>                          constexpr std::size_t component_count<glm::ivec2> = 2u;
+template<>                          constexpr std::size_t component_count<glm::ivec3> = 3u;
+template<>                          constexpr std::size_t component_count<glm::ivec4> = 4u;
+template<>                          constexpr std::size_t component_count<glm::uvec2> = 2u;
+template<>                          constexpr std::size_t component_count<glm::uvec3> = 3u;
+template<>                          constexpr std::size_t component_count<glm::uvec4> = 4u;
+// clang-format on
+/// @}
+
 } // namespace v1
 } // namespace nest
 

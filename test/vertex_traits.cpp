@@ -40,6 +40,7 @@ Expected output:
     1 0 0
     1 0 0
     5126 5126 5126
+    3 3 2 1
 */
 
 int main(int const argc, char const* const argv[])
@@ -66,6 +67,13 @@ int main(int const argc, char const* const argv[])
     std::cout << nest::opengl_type<decltype(Vertex::position)> << " "
               << nest::opengl_type<decltype(Vertex::color   )> << " "
               << nest::opengl_type<decltype(Vertex::texcoord)> << std::endl;
+    // clang-format on
+
+    // clang-format off
+    std::cout << nest::component_count<decltype(Vertex::position)> << " "
+              << nest::component_count<decltype(Vertex::color   )> << " "
+              << nest::component_count<decltype(Vertex::texcoord)> << " "
+              << nest::component_count<decltype(Vertex::blah    )> << std::endl;
     // clang-format on
 
     return EXIT_SUCCESS;
