@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 
-#include <nest/opengl.hpp>
+#include <nest/opengl/context.hpp>
 
 /*
 Build:

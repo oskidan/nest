@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 
 #include <nest/event_loop.hpp>
-#include <nest/opengl.hpp>
+#include <nest/renderer_context.hpp>
 
 /*
 Build:
@@ -24,14 +24,7 @@ extern "C" int SDL_main(int argc, char* argv[])
 
     std::atexit(SDL_Quit);
 
-    nest::OpenGL context = nest::OpenGL::Builder{}
-                               .with_window("Hello, World!", 320, 240)
-                               .with_color(8, 8, 8, 8)
-                               .with_depth_and_stencil(24, 8)
-                               .with_version(4, 1)
-                               .with(nest::OpenGL::Profile::Core)
-                               .with(nest::OpenGL::DoubleBuffering::On);
-
+    auto context = nest::make_renderer_context("Hello, World!", 320, 240);
     if (!context) {
         std::cerr << "Failed to initialize OpenGL 4.1 context: " << SDL_GetError() << std::endl;
         return EXIT_FAILURE;
@@ -61,7 +54,6 @@ extern "C" int SDL_main(int argc, char* argv[])
     });
 
     event_loop.run();
-
 
     return EXIT_SUCCESS;
 }
