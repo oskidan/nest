@@ -4,6 +4,7 @@
 
 #if NEST_RENDERER == NEST_RENDERER_OPENGL
 #include <nest/opengl/context.hpp>
+#include <nest/opengl/shader_program.hpp>
 #endif
 
 namespace nest {
