@@ -3,6 +3,12 @@
 #include <type_traits>
 #include <utility>
 
+#include <nest/config.hpp>
+
+#if NEST_RENDERER == NEST_RENDERER_OPENGL
+#include <nest/opengl/vertex_traits.hpp>
+#endif
+
 namespace nest {
 inline namespace v1 {
 
