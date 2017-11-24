@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include <string>
+#include <string_view>
 
 #include <GL/glew.h>
 
@@ -62,14 +62,18 @@ namespace detail {
 
 /// \returns A handle to the shader of the given `type`, compiled with the given `source` code, or `nullptr` in case of
 /// compilation error.
-GLuint compile_shader(GLenum type, char const* source)
+GLuint compile_shader(GLenum type, std::string_view const& source)
 {
     auto handle = glCreateShader(type);
     if (!handle) {
         // TODO: report an error.
     }
     else {
-        glShaderSource(handle, 1, &source, nullptr);
+        // clang-format off
+        GLchar const* source_data[] = { source.data() };
+        GLint  const  source_size[] = { static_cast<GLint>(source.size()) };
+        // clang-format on
+        glShaderSource(handle, 1, source_data, source_size);
         glCompileShader(handle);
 
         GLint status = GL_FALSE;
@@ -90,7 +94,7 @@ GLuint compile_shader(GLenum type, char const* source)
 
 /// Compiles and attaches a shader of the given `type` with the given `source` code to a shader program with the given
 /// `program_handle`.
-void compile_and_attach(GLuint program_handle, GLenum type, std::string const& source)
+void compile_and_attach(GLuint program_handle, GLenum type, std::string_view const& source)
 {
     if (source.empty())
         return;
@@ -111,7 +115,7 @@ class ShaderProgram::Builder final {
   public:
     /// Compiles a vertex shader with the given `source`. The shader will be linked into the `ShaderProgram` under
     /// construction.
-    Builder& with_vertex_shader(std::string const& source)
+    Builder& with_vertex_shader(std::string_view const& source)
     {
         if (lazy_init()) {
             detail::compile_and_attach(instance.handle, GL_VERTEX_SHADER, source);
@@ -121,7 +125,7 @@ class ShaderProgram::Builder final {
 
     /// Compiles a fragment shader with the given `source`. The shader will be linked into the `ShaderProgram` under
     /// construction.
-    Builder& with_fragment_shader(std::string const& source)
+    Builder& with_fragment_shader(std::string_view const& source)
     {
         if (lazy_init()) {
             detail::compile_and_attach(instance.handle, GL_FRAGMENT_SHADER, source);
