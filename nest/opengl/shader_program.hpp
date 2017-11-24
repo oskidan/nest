@@ -8,7 +8,7 @@
 namespace nest {
 inline namespace v1 {
 
-/// A class for managing OpenGL shader program objects.
+/// A class for managing an OpenGL shader program.
 class ShaderProgram final {
   public:
     class Builder;

@@ -11,7 +11,7 @@
 namespace nest {
 inline namespace v1 {
 
-///
+/// A class for managing an OpenGL polygon mesh.
 class Mesh final {
   public:
     class Builder;
@@ -96,7 +96,7 @@ bool set_buffer_data(GLenum const target, GLuint& vbo, T begin, T end, GLenum us
     return true;
 }
 
-///
+/// Enables and initializes an attribute with the given `index`.
 template <typename T>
 void enable_attribute(GLuint const index, GLboolean const normalized, GLvoid const* pointer)
 {
@@ -164,7 +164,7 @@ class Mesh::Builder final {
         return with_vertices(begin(container), end(container));
     }
 
-    ///
+    /// Sets vertices with the given initializer list.
     template <typename T>
     Builder& with_vertices(std::initializer_list<T> vertices)
     {
@@ -172,7 +172,7 @@ class Mesh::Builder final {
         return with_vertices(begin(vertices), end(vertices));
     }
 
-    ///
+    /// Sets indices with the given initializer list.
     template <typename T>
     Builder& with_indices(std::initializer_list<T> indices)
     {
@@ -187,7 +187,7 @@ class Mesh::Builder final {
     }
 
   private:
-    ///
+    /// Creates `Mesh` VAO unless it has been already created.
     bool lazy_init()
     {
         auto& vao = instance.vao_handle;
@@ -203,7 +203,7 @@ class Mesh::Builder final {
         return true;
     }
 
-    ///
+    /// Holds the `Mesh` instance being built.
     Mesh instance;
 };
 
