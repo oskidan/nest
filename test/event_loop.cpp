@@ -24,7 +24,7 @@ extern "C" int SDL_main(int argc, char* argv[])
 
     std::atexit(SDL_Quit);
 
-    auto context = nest::make_renderer_context("Hello, World!", 320, 240);
+    auto context = nest::make_renderer_context("Event Loop Test", 320, 240);
     if (!context) {
         std::cerr << "Failed to initialize OpenGL 4.1 context: " << SDL_GetError() << std::endl;
         return EXIT_FAILURE;

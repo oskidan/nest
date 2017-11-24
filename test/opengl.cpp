@@ -22,7 +22,7 @@ extern "C" int SDL_main(int argc, char* argv[])
     std::atexit(SDL_Quit);
 
     nest::OpenGL context = nest::OpenGL::Builder{}
-                               .with_window("Hello, World!", 320, 240)
+                               .with_window("OpenGL Test", 320, 240)
                                .with_color(8, 8, 8, 8)
                                .with_depth_and_stencil(24, 8)
                                .with_version(4, 1)
