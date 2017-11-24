@@ -3,6 +3,9 @@
 #include <type_traits>
 #include <utility>
 
+// REVISIT(oleksii): Figure out if there're going to be any issues with GLM when targeting DX.
+#include <glm/glm.hpp>
+
 #include <nest/config.hpp>
 
 #if NEST_RENDERER == NEST_RENDERER_OPENGL

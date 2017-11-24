@@ -74,5 +74,8 @@ template <std::size_t N> constexpr GLenum opengl_type<GLfixed[N]>  = GL_FIXED;
 // clang-format on
 ///@}
 
+/// Holds indices of vertex attributes, as they are expected to be mapped in a shader program.
+enum : GLuint { PositionAttribute = 0u, ColorAttribute = 1u, TexcoordAttribute = 2u };
+
 } // namespace v1
 } // namespace nest
