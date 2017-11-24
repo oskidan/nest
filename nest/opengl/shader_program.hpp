@@ -23,9 +23,8 @@ class ShaderProgram final {
 
     ~ShaderProgram() noexcept
     {
-        if (handle) {
-            glDeleteProgram(handle);
-        }
+        // A value of 0 will be silently ignored.
+        glDeleteProgram(handle);
     }
 
     ShaderProgram& operator=(ShaderProgram const&) = delete;
