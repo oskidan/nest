@@ -51,7 +51,7 @@ class AsyncRenderer final {
     template <typename Context>
     AsyncRenderer(Context&& ctx)
     {
-        thread = std::thread([ this, ctx = std::move(ctx) ]() mutable {
+        thread = std::thread([this, ctx = std::move(ctx)]() mutable {
             ctx.make_current();
             loop();
         });
@@ -154,5 +154,5 @@ class AsyncRenderer::CommandQueue::Builder final {
     CommandQueue queue;
 };
 
-} // inline namespace v1
+} // namespace v1
 } // namespace nest

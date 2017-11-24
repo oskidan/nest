@@ -62,4 +62,3 @@ template<>                          constexpr std::size_t component_count<glm::u
 
 } // namespace v1
 } // namespace nest
-

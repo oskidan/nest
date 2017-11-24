@@ -39,7 +39,6 @@ class Delegate<R(T...)> {
         // This function will be called by `Delegate::operator()`. It's responsible for calling the free-standing
         // function, which is available through `Delegate::function` pointer.
         dispatch = [](Delegate* self, T... args) -> R {
-
             auto function = reinterpret_cast<R (*)(T...)>(self->function);
             if (!function) {
                 // TODO: report an error.
@@ -63,7 +62,6 @@ class Delegate<R(T...)> {
         // which is available through `Delegate::function` pointer. That function will be given `Delegate::object`
         // pointer in the first argument.
         dispatch = [](Delegate* self, T... args) -> R {
-
             auto function = reinterpret_cast<R (*)(void*, T...)>(self->function);
             if (!function) {
                 // TODO: report an error.
@@ -89,7 +87,6 @@ class Delegate<R(T...)> {
         // which is available through `Delegate::function` pointer on the object which is available through
         // `Delegate::object` pointer.
         dispatch = [](Delegate* self, T... args) -> R {
-
             auto fn = detail::unsafe_cast<R (U::*)(T...)>(self->function);
             if (!fn) {
                 // TODO: report an error.
@@ -118,7 +115,6 @@ class Delegate<R(T...)> {
         // This function will be called by `Delegate::opreator()`. It's responsible for calling the `operator()` of
         // `callable` object which is available through `Delegate::object` pointer.
         dispatch = [](Delegate* self, T... args) -> R {
-
             auto callable = static_cast<U*>(self->object);
             if (!callable) {
                 // TODO: report an error.
@@ -130,7 +126,6 @@ class Delegate<R(T...)> {
         // This function will be called by `Delegate::unbind()`. It's responsible for gracefull destruction and
         // deallocation of `callable` object.
         destroy = [](Delegate* self) {
-
             auto callable = static_cast<U*>(self->object);
             if (!callable) {
                 // TODO: report an error.
@@ -199,4 +194,3 @@ class Delegate<R(T...)> {
 
 } // namespace v1
 } // namespace nest
-

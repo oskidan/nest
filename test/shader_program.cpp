@@ -38,7 +38,8 @@ int SDL_main(int argc, char* argv[])
             void main() {
                 gl_Position = vec4(position[gl_VertexID], 0.0, 1.0);
             }
-        )").with_fragment_shader(R"(
+        )")
+                                      .with_fragment_shader(R"(
             void main() {
                 gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0);
             }
@@ -58,4 +59,3 @@ int SDL_main(int argc, char* argv[])
 
     return EXIT_SUCCESS;
 }
-

@@ -76,4 +76,3 @@ template <std::size_t N> constexpr GLenum opengl_type<GLfixed[N]>  = GL_FIXED;
 
 } // namespace v1
 } // namespace nest
-

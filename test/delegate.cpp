@@ -68,7 +68,7 @@ int main(int const argc, char const* const argv[])
     });
     std::cout << "Delegate says: " << delegate("Don't you know ") << std::endl;
 
-    delegate.bind([c = std::move(c)](char const* what)->char const* {
+    delegate.bind([c = std::move(c)](char const* what) -> char const* {
         std::cout << what;
         return c.x;
     });

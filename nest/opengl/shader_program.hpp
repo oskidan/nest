@@ -177,4 +177,3 @@ class ShaderProgram::Builder final {
 
 } // namespace v1
 } // namespace nest
-

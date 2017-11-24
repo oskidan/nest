@@ -99,4 +99,3 @@ class EventLoop {
 
 } // namespace v1
 } // namespace nest
-
