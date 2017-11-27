@@ -5,7 +5,7 @@
 #include <nest/renderer_context.hpp>
 
 /*
-c++ -std=c++17 -g -O0 -Wall -Werror -I. test/shader_program.cpp -lmingw32 -lglew32 -lopengl32 -lSDL2main -lSDL2
+g++ -std=c++17 -g -O0 -Wall -Werror -I. test/shader_program.cpp -lmingw32 -lglew32 -lopengl32 -lSDL2main -lSDL2
 
 Expected result:
     A yellow triangle on a red background drawn in the center of the screen.
@@ -46,7 +46,7 @@ int SDL_main(int argc, char* argv[])
         )");
 
     nest::EventLoop event_loop;
-    event_loop.on_tick.bind([&context, &program](float time_step) {
+    event_loop.on_tick = [&context, &program](float time_step) {
         glClearColor(1.f, 0.f, 0.f, 1.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -54,7 +54,7 @@ int SDL_main(int argc, char* argv[])
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         context.swap_buffers();
-    });
+    };
     event_loop.run();
 
     return EXIT_SUCCESS;

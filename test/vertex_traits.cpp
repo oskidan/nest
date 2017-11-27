@@ -33,7 +33,7 @@ struct Evil {
 };
 
 /*
-c++ -std=c++17 -g -O0 -Wall -Werror -I. test/vertex_traits.cpp
+g++ -std=c++17 -g -O0 -Wall -Werror -I. test/vertex_traits.cpp
 
 Expected output:
     1 0 0

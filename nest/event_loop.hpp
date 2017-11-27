@@ -2,11 +2,10 @@
 
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <thread>
 
 #include <SDL2/SDL.h>
-
-#include <nest/delegate.hpp>
 
 namespace nest {
 inline namespace v1 {
@@ -17,11 +16,11 @@ class EventLoop {
     /// If this delegate is bound, and the user is closing the window, then the delegate will be called. Call
     /// `EventLoop::quit()` from the delegate to terminate the event loop. If this delegate is not bound, and the user
     /// is closing the window, then the event loop will terminate by default.
-    Delegate<void()> on_quit;
+    std::function<void()> on_quit;
 
     /// Gets called when the application is idle. Takes `time_step` in seconds since the last `on_tick` call. This
     /// delegate is not called unless something is bound to it.
-    Delegate<void(float const time_step)> on_tick;
+    std::function<void(float const time_step)> on_tick;
 
     /// Runs event loop. The loop will terminate when:
     ///     - `EventLoop::on_quit` is not bound and the user closes the window;

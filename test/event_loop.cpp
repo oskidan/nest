@@ -32,7 +32,7 @@ extern "C" int SDL_main(int argc, char* argv[])
 
     nest::EventLoop event_loop;
 
-    event_loop.on_tick.bind([&context](float const time_step) {
+    event_loop.on_tick = [&context](float const time_step) {
         static float a = 0.f;
         static float t = 0.f;
 
@@ -51,7 +51,7 @@ extern "C" int SDL_main(int argc, char* argv[])
         glClear(GL_COLOR_BUFFER_BIT);
 
         context.swap_buffers();
-    });
+    };
 
     event_loop.run();
 
